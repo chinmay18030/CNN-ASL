@@ -1,16 +1,9 @@
-# importing the modules
-import os
-
+#Importing the modules
 import numpy as np
-from cvzone.HandTrackingModule import HandDetector
-import cv2
 import keras
 
 # loading model and data
 model = keras.models.load_model('Model')
-images = np.load("images.npy")
-classNo = np.load("classes.npy")
-
 
 # preprocessing
 def preProcessing(image):
@@ -32,13 +25,16 @@ def get_prediction(roi):
 
     return classes_x, probVal
 
-
+#labels
 main = ['A', 'B', 'C', 'D', 'del', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'nothing', 'O', 'P', 'Q', 'R', 'S', 'space', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+
+# Getting prediction from image
 image = cv2.imread("asl_alphabet_test/A_test.jpg")
 ind, acc = get_prediction(image)
+
+# Showing the image
 image = cv2.resize(image, (640,480))
 cv2.putText(image,"In ASL:"+main[ind[0]], (50,50), cv2.FONT_HERSHEY_PLAIN, 5, (0,255,0), 5)
-
 cv2.imshow("Image", image)
 cv2.waitKey(0)
 
